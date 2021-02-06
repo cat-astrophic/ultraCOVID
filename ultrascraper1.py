@@ -70,7 +70,7 @@ for x in range(1,page_count):
         yr_id1 = d.index('year">')
         yr_id2 = d.index('</div>')
         yr = d[yr_id1+6:yr_id2]
-        years.append(yr)
+        years.append(int(yr))
         
         # Event type / distance
         
@@ -110,23 +110,32 @@ for x in range(1,page_count):
         state = d[:state_id2]
         states.append(state)
         
-# Creating the dataframe and saving it to file
+# Cleaning this data before saving as a df
+
+names = [n.replace('&amp;','&') for n in names]
+splits = [int('split' in e) for e in events] # A list of indices for splits (not actual races)
+
+# Creating the dataframe
 
 ultra_df = pd.DataFrame({'Name': names, 'Distance': events, 'City': cities, 'State': states,
-                   'Finishers': finishers, 'Month': months, 'Year': years, 'ID': goToRace})
+                   'Finishers': finishers, 'Month': months, 'Year': years, 'ID': goToRace, 'Split': splits})
+
+us = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA',
+      'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS',
+      'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA',
+      'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'] # A list of states in the US
+canada = ['AB', 'BC', 'MB', 'NB', 'NL', 'ON', 'PE', 'QC', 'SK', 'YT'] # A list of territories in Canada
+usca = us + canada # A list of states/territories in the US & Canada
+
+ultra_df = ultra_df[ultra_df.Year >= 2010].reset_index(drop = True) # Subset for year >= 2010
+ultra_df = ultra_df[ultra_df.Split == 0].reset_index(drop = True) # Subset for full races only (no split times)
+ultra_df = ultra_df[ultra_df.State.isin(usca)].reset_index(drop = True) # Subset for races in US & Canada only
+
+nation = ['US' if ultra_df.State[i] in us else 'Canada' for i in range(len(ultra_df))] # Nation identifier
+ultra_df = pd.concat([ultra_df, pd.Series(nation, name = 'Nation')], axis = 1) # Append to df
+ultra_df = ultra_df.drop('Split', axis = 1) # Remove Split from df
+
+# Saving the dataframe to file
+
 ultra_df.to_csv('C:/Users/' + username + '/Documents/Data/ultraCOVID/race_data.csv', index = False, encoding = 'utf-8-sig')
 
-
-
-
-"""
-
-
-Clean up the lists before creating the df
-
-month and year definitely good
-
-goToRace probably also fine
-
-
-"""
