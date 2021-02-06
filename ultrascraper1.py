@@ -20,6 +20,7 @@ goToRace = []
 names = []
 events = []
 months = []
+dates = []
 years = []
 finishers = []
 cities = []
@@ -62,9 +63,17 @@ for x in range(1,page_count):
         month = d[month_id1+7:month_id2]
         months.append(month)
         
-        # Year of event
+        # Date of event
         
         d = d[month_id2+8:]
+        date_id1 = d.index('day')
+        date_id2 = d.index('</div>')
+        date = d[date_id1+5:date_id2]
+        dates.append(date)
+        
+        # Year of event
+        
+        d = d[date_id2+1:]
         skip = d.index('<div')
         d = d[skip+1:]
         yr_id1 = d.index('year">')
@@ -117,8 +126,9 @@ splits = [int('split' in e) for e in events] # A list of indices for splits (not
 
 # Creating the dataframe
 
-ultra_df = pd.DataFrame({'Name': names, 'Distance': events, 'City': cities, 'State': states,
-                   'Finishers': finishers, 'Month': months, 'Year': years, 'ID': goToRace, 'Split': splits})
+ultra_df = pd.DataFrame({'Name': names, 'Distance': events, 'City': cities,
+                         'State': states, 'Finishers': finishers, 'Month': months,
+                         'Date': dates, 'Year': years, 'ID': goToRace, 'Split': splits})
 
 us = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA',
       'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS',
