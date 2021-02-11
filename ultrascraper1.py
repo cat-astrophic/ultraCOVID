@@ -141,7 +141,7 @@ ultra_df = ultra_df[ultra_df.Year >= 2010].reset_index(drop = True) # Subset for
 ultra_df = ultra_df[ultra_df.Split == 0].reset_index(drop = True) # Subset for full races only (no split times)
 ultra_df = ultra_df[ultra_df.State.isin(usca)].reset_index(drop = True) # Subset for races in US & Canada only
 
-nation = ['US' if ultra_df.State[i] in us else 'Canada' for i in range(len(ultra_df))] # Nation identifier
+nation = ['US' if ultra_df.State[i] in us else 'CAN' for i in range(len(ultra_df))] # Nation identifier
 ultra_df = pd.concat([ultra_df, pd.Series(nation, name = 'Nation')], axis = 1) # Append to df
 ultra_df = ultra_df.drop('Split', axis = 1) # Remove Split from df
 
