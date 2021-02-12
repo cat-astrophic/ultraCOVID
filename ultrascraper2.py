@@ -8,7 +8,7 @@ import pandas as pd
 
 # Specifiying your username
 
-username = 'Michael'
+username = ''
 
 # Defining the url
 
