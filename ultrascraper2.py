@@ -8,7 +8,7 @@ import pandas as pd
 
 # Specifiying your username
 
-username = ''
+username = 'Michael'
 
 # Defining the url
 
@@ -154,6 +154,7 @@ for i in range(len(ultra_df)):
                                ultra_df.Month[i], ultra_df.Date[i], ultra_df.Nation[i])
         scraped.append(scrape)
         racedat = [list(ultra_df.iloc[i]) for j in range(len(scrape))]
+        race_dat.append(racedat)
         
     except:
         
@@ -188,16 +189,16 @@ last_race = [s[i][22] for s in scraped for i in range(len(s))]
 history = [s[i][23] for s in scraped for i in range(len(s))]
 race_counts = [s[i][24] for s in scraped for i in range(len(s))]
 
-RACEname = [dat[i][0] for dat in racedat for i in range(len(dat))]
-RACEdistance = [dat[i][1] for dat in racedat for i in range(len(dat))]
-RACEcity = [dat[i][2] for dat in racedat for i in range(len(dat))]
-RACEstate = [dat[i][3] for dat in racedat for i in range(len(dat))]
-RACEfinishers = [dat[i][4] for dat in racedat for i in range(len(dat))]
-RACEmonth = [dat[i][5] for dat in racedat for i in range(len(dat))]
-RACEdate = [dat[i][6] for dat in racedat for i in range(len(dat))]
-RACEyear = [dat[i][7] for dat in racedat for i in range(len(dat))]
-RACEid = [dat[i][8] for dat in racedat for i in range(len(dat))]
-RACEnation = [dat[i][9] for dat in racedat for i in range(len(dat))]
+RACEname = [dat[i][0] for dat in race_dat for i in range(len(dat))]
+RACEdistance = [dat[i][1] for dat in race_dat for i in range(len(dat))]
+RACEcity = [dat[i][2] for dat in race_dat for i in range(len(dat))]
+RACEstate = [dat[i][3] for dat in race_dat for i in range(len(dat))]
+RACEfinishers = [dat[i][4] for dat in race_dat for i in range(len(dat))]
+RACEmonth = [dat[i][5] for dat in race_dat for i in range(len(dat))]
+RACEdate = [dat[i][6] for dat in race_dat for i in range(len(dat))]
+RACEyear = [dat[i][7] for dat in race_dat for i in range(len(dat))]
+RACEid = [dat[i][8] for dat in race_dat for i in range(len(dat))]
+RACEnation = [dat[i][9] for dat in race_dat for i in range(len(dat))]
 
 # Cleaning the data
 
