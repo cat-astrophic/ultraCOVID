@@ -26,7 +26,7 @@ finishers = []
 cities = []
 states = []
 
-# As of February 5, 2021 this more than ensures all races since January 1, 2010 are included
+# As of April 1, 2021 this more than ensures all races since January 1, 2010 are included
 # This will eventually need updating :: check this and update manually if using!
 
 page_count = 900
