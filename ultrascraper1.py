@@ -31,7 +31,7 @@ states = []
 
 page_count = 900
 
-for x in range(1,page_count):
+for x in range(1,page_count+1):
     
     print('Retrieving data from search page ' + str(x) + ' of ' + str(page_count) + '.......')
     
