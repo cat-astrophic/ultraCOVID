@@ -4,6 +4,7 @@
 
 import pandas as pd
 import numpy as np
+import datetime
 from matplotlib import pyplot as plt
 
 # Specifiying your username
@@ -105,24 +106,40 @@ for i in range(len(d)):
 d = pd.concat([d, pd.Series(all_past, name = 'Total Appearances')], axis = 1)
 d = pd.concat([d, pd.Series(consec_past, name = 'Consecutive Appearances')], axis = 1)
 
+# If next year's race is not held, did they run a new race \pm a month?
+
+# First, add datetime data to the dataframes d and data (we'll need both)
+
+nastydates = [d.iloc[i]['RACE_Month'] + ' ' + str(d.iloc[i]['RACE_Date']) + ', ' + str(d.iloc[i]['RACE_Year']) for i in range(len(d))] # Dates as formatted strings
+cleandates = [datetime.datetime.strptime(nd, '%b %d, %Y') for nd in nastydates] # Cleaned dates in datetime format
+d = pd.concat([d, pd.Series(cleandates, name = 'Clean_Race_Date')], axis = 1) # Add cleandates to the dataframe
+
+nastydates2 = [data.iloc[i]['RACE_Month'] + ' ' + str(data.iloc[i]['RACE_Date']) + ', ' + str(data.iloc[i]['RACE_Year']) for i in range(len(data))] # Dates as formatted strings
+cleandates2 = [datetime.datetime.strptime(nd, '%b %d, %Y') for nd in nastydates2] # Cleaned dates in datetime format
+data = pd.concat([data, pd.Series(cleandates2, name = 'Clean_Race_Date')], axis = 1) # Add cleandates to the dataframe
+
+# Creating the data for whether or not an athlete competed in an event within the time window for cancelled events
+
+unomo = []
+dosmos = []
+
+for i in range(len(d)):
+    
+    idx = d.iloc[i]['Runner_ID'] # Get Runner_ID
+    tempdf1 = data[data['Clean_Race_Date'] >= d.iloc[i]['Clean_Race_Date'] - datetime.timedelta(30)] # Subset for all races this individual ran \pm one month
+    tempdf2 = data[data['Clean_Race_Date'] >= d.iloc[i]['Clean_Race_Date'] - datetime.timedelta(60)] # Subset for all races this individual ran \pm two months
+    tempdf1 = tempdf1[tempdf1['Clean_Race_Date'] <= d.iloc[i]['Clean_Race_Date'] + datetime.timedelta(30)] # Subset for all races this individual ran \pm one month
+    tempdf2 = tempdf2[tempdf2['Clean_Race_Date'] <= d.iloc[i]['Clean_Race_Date'] + datetime.timedelta(60)] # Subset for all races this individual ran \pm two months
+    unomo.append(np.int(idx in tempdf1['Runner_ID']))
+    dosmos.append(np.int(idx in tempdf2['Runner_ID']))
+    
+
+    
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# If next year's race is not held, did they run a new race \pm two months? One month?
 
 
 # can also look at impact on race counts for events (as a summary statistic)
