@@ -159,79 +159,19 @@ for i in range(len(d)):
 
 d = pd.concat([d, pd.Series(future_dates, name = 'Next_Year_Event_Date')], axis = 1) # Add future_dates to dataframe
 
-# Getting the date of the \pm races if they exist (use closest date to expected event date)
-
-future_dates1 = []
-future_dates2 = []
-
-for i in range(len(d)):
-    
-    if pd.isnull(d['Next_Year_Event_Date'][i]) == False:
-        
-        future_dates1.append(d['Clean_Race_Date'][i])
-        future_dates2.append(d['Clean_Race_Date'][i])
-        
-    elif d.iloc[i]['PM_1_Month'] == 1:
-        
-        rid = d.iloc[i]['Runner_ID'] # Get Runner_ID
-        tmpdf1 = data[data['Clean_Race_Date'] <= d['Clean_Race_Date'][i]+datetime.timedelta(365+30)]
-        tmpdf1 = tmpdf1[tmpdf1['Clean_Race_Date'] >= d['Clean_Race_Date'][i]+datetime.timedelta(365-30)]
-        tmpdf1 = tmpdf1[tmpdf1['Runner_ID'] == rid].reset_index(drop = True)
-        tmpdf2 = data[data['Clean_Race_Date'] <= d['Clean_Race_Date'][i]+datetime.timedelta(365+60)]
-        tmpdf2 = tmpdf2[tmpdf2['Clean_Race_Date'] >= d['Clean_Race_Date'][i]+datetime.timedelta(365-60)]
-        tmpdf2 = tmpdf2[tmpdf2['Runner_ID'] == rid].reset_index(drop = True)
-        diffs1 = [abs(date - d['Clean_Race_Date'][i]) for date in tmpdf1['Clean_Race_Date']]
-        diffs2 = [abs(date - d['Clean_Race_Date'][i]) for date in tmpdf2['Clean_Race_Date']]
-        min1 = diffs1.index(min(diffs1))
-        min2 = diffs2.index(min(diffs2))
-        future_dates1.append(tmpdf1.iloc[min1]['Clean_Race_Date'])
-        future_dates2.append(tmpdf2.iloc[min2]['Clean_Race_Date'])
-        
-    elif d.iloc[i]['PM_2_Months'] == 1:
-        
-        rid = d.iloc[i]['Runner_ID'] # Get Runner_ID
-        tmpdf2 = data[data['Clean_Race_Date'] <= d['Clean_Race_Date'][i]+datetime.timedelta(365+60)]
-        tmpdf2 = tmpdf2[tmpdf2['Clean_Race_Date'] >= d['Clean_Race_Date'][i]+datetime.timedelta(365-60)]
-        tmpdf2 = tmpdf2[tmpdf2['Runner_ID'] == rid].reset_index(drop = True)
-        diffs2 = [abs(date - d['Clean_Race_Date'][i]) for date in tmpdf2['Clean_Race_Date']]
-        min2 = diffs2.index(min(diffs2))
-        future_dates1.append(np.nan)
-        future_dates2.append(tmpdf2.iloc[min2]['Clean_Race_Date'])
-        
-    else:
-        
-        future_dates1.append(np.nan)
-        future_dates2.append(np.nan)
-        
-# Adding these to the dataframe d
-
-future_dates1 = pd.Series(future_dates1, name = 'Next_Year_Event_Date_PM1')
-future_dates2 = pd.Series(future_dates2, name = 'Next_Year_Event_Date_PM2')
-d = pd.concat([d, future_dates1, future_dates2], axis = 1) # Add future_dates1&2 to dataframe
-
-# only other thing to do would be to find the dates and locations of the pm1/2 races
-
-# First is to initialize two new columns for next years event details
+# Getting the relevant data for the \pm races if they exist (use closest date to expected event date)
 
 nyeven = [d['RACE_Name'][i] if d['Attended_Next_Year_Race'][i] == 1 else None for i in range(len(d))]
 nydist = [d['RACE_Distance'][i] if d['Attended_Next_Year_Race'][i] == 1 else None for i in range(len(d))]
 
-nyeven = pd.Series(nyeven, name = 'Next_Year_Event')
-nydist = pd.Series(nydist, name = 'Next_Year_Distance')
-nyeven1 = pd.Series(nyeven, name = 'Next_Year_Event_PM1')
-nydist1 = pd.Series(nydist, name = 'Next_Year_Distance_PM1')
-nyeven2 = pd.Series(nyeven, name = 'Next_Year_Event_PM2')
-nydist2 = pd.Series(nydist, name = 'Next_Year_Distance_PM2')
-
-d = pd.concat([d, nyeven1, nydist1, nyeven2, nydist2], axis = 1)
-
+nyeven1 = nyeven
+nydist1 = nydist
+pm1 = d['PM_1_Month'].to_list()
+pm1date = d['Next_Year_Event_Date'].to_list()
 d1 = d[d['PM_1_Month'] == 1]
-d2 = d[d['PM_2_Months'] == 1]
-d1 = d1[d1['Race_Held_Next_Year'] == 0]
-d2 = d2[d2['Race_Held_Next_Year'] == 0]
 
 for i in d1.index.to_list():
-    print(str(d1.index.to_list().index(i)+1) + ' of  4221.......')
+    
     rid = d['Runner_ID'][i] # Get runner id
     pydate = d['Clean_Race_Date'][i] # Get PY event date
     tmpdf = data[data['Clean_Race_Date'] >= d['Clean_Race_Date'][i]+datetime.timedelta(365-30)] # Subset data
@@ -252,57 +192,51 @@ for i in d1.index.to_list():
                 
                 tmpdf = tmpdf.drop([list(tmpdf.index)[row]]) # Remove the row from tmpdf because they ran it in PY
                 
-    # Finally, find the median entry
+    # Finally, find the central entry
     
     if len(tmpdf) == 0:
         
-        d['PM_1_Month'][i] = 0
-        d['Next_Year_Event_Date_PM1'][i] = None
+        pm1[i] = 0
+        pm1date[i] = None
         
     else:
         
         datediffs = [abs(pydate+datetime.timedelta(365) - xx) for xx in tmpdf['Clean_Race_Date']]
         newdate = datediffs.index(min(datediffs))
-        d['Next_Year_Event_Date_PM1'][i] = tmpdf.iloc[newdate]['Clean_Race_Date']
-        d['Next_Year_Event_PM1'][i] = tmpdf.iloc[newdate]['RACE_Name']
-        d['Next_Year_Distance_PM1'][i] = tmpdf.iloc[newdate]['RACE_Distance']
+        pm1date[i] = tmpdf.iloc[newdate]['Clean_Race_Date']
+        nyeven1[i] = tmpdf.iloc[newdate]['RACE_Name']
+        nydist1[i] = tmpdf.iloc[newdate]['RACE_Distance']
+
+nyeven1 = pd.Series(nyeven1, name = 'NY_Event_Name_PM1')
+nydist1 = pd.Series(nydist1, name = 'NY_Event_Distance_PM1')
+pm1 = pd.Series(pm1, name = 'PM_1_Month')
+pm1date = pd.Series(pm1date, name = 'NY_Event_Date_PM1')
+
+d = d.drop(['PM_1_Month'], axis = 1) # Remove unupdated columns
+d = pd.concat([d, pm1, pm1date, nyeven1, nydist1], axis = 1) # Update the data frame
+
+# Restrict races to those held in the US
+
+d = d[d['RACE_Nation'] == 'US'].reset_index(drop = True)
+
+# Add next year race location to the data
+
+nycity = [d['RACE_City'][i] if d['Attended_Next_Year_Race'][i] == 1 else None for i in range(len(d))]
+nystate = [d['RACE_State'][i] if d['Attended_Next_Year_Race'][i] == 1 else None for i in range(len(d))]
+
+nycity1 = nycity
+nystate1 = nystate
+
+for i in range(len(d)):
+    print(i)
+    if d['PM_1_Month'][i] != d['Attended_Next_Year_Race'][i]:
         
-for i in d2.index.to_list():
-    print(str(d2.index.to_list().index(i)+1) + ' of  7773.......')
-    rid = d['Runner_ID'][i] # Get runner id
-    pydate = d['Clean_Race_Date'][i] # Get PY event date
-    tmpdf = data[data['Clean_Race_Date'] >= d['Clean_Race_Date'][i]+datetime.timedelta(365-30)] # Subset data
-    tmpdf = tmpdf[tmpdf['Clean_Race_Date'] <= d['Clean_Race_Date'][i]+datetime.timedelta(365+30)] # Subset data
-    tmpdf = tmpdf[tmpdf['Runner_ID'] == rid] # All races ran in window by runner
-    tmpdf2 = data[data['Clean_Race_Date'] >= d['Clean_Race_Date'][i]+datetime.timedelta(30)] # Look for these races PY
-    tmpdf2 = tmpdf2[tmpdf2['Clean_Race_Date'] <= d['Clean_Race_Date'][i]-datetime.timedelta(30)] # Look for these races PY
-    tmpdf2 = tmpdf2[tmpdf2['Runner_ID'] == rid] # All races ran in window by runner
+        nycity1[i] = d['RACE_City'][i]
+        nystate1[i] = d['RACE_State'][i]
     
-    for row in range(len(tmpdf)):
-        
-        en = tmpdf.iloc[row]['RACE_Name']
-        ed = tmpdf.iloc[row]['RACE_Distance']
-        
-        for row2 in range(len(tmpdf2)):
-            
-            if (tmpdf2.iloc[row2]['RACE_Name'] == en) and (tmpdf2.iloc[row2]['RACE_Distance'] == ed):
-                
-                tmpdf = tmpdf.drop([list(tmpdf.index)[row]]) # Remove the row from tmpdf because they ran it in PY
-                
-    # Finally, find the median entry
-    
-    if len(tmpdf) == 0:
-        
-        d['PM_2_Months'][i] = 0
-        d['Next_Year_Event_Date_PM2'][i] = None
-        
-    else:
-        
-        datediffs = [abs(pydate+datetime.timedelta(365) - xx) for xx in tmpdf['Clean_Race_Date']]
-        newdate = datediffs.index(min(datediffs))
-        d['Next_Year_Event_Date_PM2'][i] = tmpdf.iloc[newdate]['Clean_Race_Date']
-        d['Next_Year_Event_PM1'][i] = tmpdf.iloc[newdate]['RACE_Name']
-        d['Next_Year_Distance_PM1'][i] = tmpdf.iloc[newdate]['RACE_Distance']
+nycity1 = pd.Series(nycity1, name = 'NY_RACE_City')
+nystate1 = pd.Series(nystate1, name = 'NY_RACE_State')
+d = pd.concat([d, nycity1, nystate1], axis = 1)
 
 # Write the final version of the dataframe d to file 
 
