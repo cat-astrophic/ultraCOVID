@@ -37,6 +37,7 @@ racedata = racedata[racedata.Country == 'USA'].reset_index(drop = True)
 racedata['Next_Year_Event_Date'] = pd.to_datetime(racedata['Next_Year_Event_Date'])
 racedata['NY_Event_Date_PM1'] = pd.to_datetime(racedata['NY_Event_Date_PM1'])
 racedata = racedata[racedata['NY_Event_Date_PM1'] >= datetime.datetime.strptime('2020-04-01', '%Y-%m-%d')].reset_index(drop = True)
+racedata = racedata[racedata['NY_Event_Date_PM1'] < datetime.datetime.strptime('2021-04-01', '%Y-%m-%d')].reset_index(drop = True)
 
 # Converting covidata dates to datetime format
 
@@ -222,7 +223,7 @@ def covid_race(inp):
     state = inp.RACE_State.upper().strip('"')
     sx = list(ccmap['State short']).index(state)
     st = ccmap['State full'][sx]
-    date = inp.Next_Year_Event_Date
+    date = inp.NY_Event_Date_PM1
     
     try:
         
@@ -403,7 +404,7 @@ rnr_s_d_ma14 = []
 rnr_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    
+    print(i)
     if racedata['Next_Year_Event_Date'][i] < datetime.datetime.strptime('2020-04-01', '%Y-%m-%d'):
         
         racedata['Next_Year_Event_Date'][i] = None
@@ -473,7 +474,7 @@ race_s_d_ma14 = []
 race_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    
+    print(i)
     if racedata['Next_Year_Event_Date'][i] < datetime.datetime.strptime('2020-04-01', '%Y-%m-%d'):
         
         racedata['Next_Year_Event_Date'][i] = None
@@ -543,7 +544,7 @@ pm1rnr_s_d_ma14 = []
 pm1rnr_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    
+    print(i)
     if pd.isnull(racedata['NY_Event_Name_PM1'][i]) == False:
         
         cased, deadd, casedst, deaddst = covid_race(racedata.iloc[i])
@@ -609,7 +610,7 @@ pm1race_s_d_ma14 = []
 pm1race_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    
+    print(i)
     if pd.isnull(racedata['NY_Event_Name_PM1'][i]) == False:
         
         cased, deadd, casedst, deaddst = covid_race(racedata.iloc[i])
