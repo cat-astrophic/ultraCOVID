@@ -650,3 +650,7 @@ racedata = pd.concat([racedata, pm1race_c_c_ma7, pm1race_c_c_ma14, pm1race_c_c_m
                       pm1race_c_d_ma14, pm1race_c_d_ma30, pm1race_s_c_ma7, pm1race_s_c_ma14,
                       pm1race_s_c_ma30, pm1race_s_d_ma7, pm1race_s_d_ma14, pm1race_s_d_ma30], axis = 1)
 
+# Writing tha final data frame to file
+
+racedata.to_csv(filepath + 'ultradata.csv', index = False)
+
