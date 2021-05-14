@@ -51,7 +51,7 @@ def covid_rnr(inp):
     state = inp.State.upper().strip('"')
     sx = list(ccmap['State short']).index(state)
     st = ccmap['State full'][sx]
-    date = inp.Next_Year_Event_Date
+    date = inp.NY_Event_Date_PM1
     
     try:
         
@@ -386,8 +386,8 @@ def covid_race(inp):
         deaddst = [None, None, None]
         
     return cased, deadd, casedst, deaddst
-    
-# Creating runner city and state covid data
+
+## Creating runner city and state covid data
 
 rnr_c_c_ma7 = []
 rnr_c_c_ma14 = []
