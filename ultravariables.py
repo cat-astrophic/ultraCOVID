@@ -439,6 +439,12 @@ for i in range(len(runners)):
 ability = pd.Series(ability, name = 'Ability')
 ultradata = pd.concat([ultradata, ability], axis = 1)
 
+# Creating an explicit dependent variable for the full data set regressions
+
+y = [max(ultradata['Attended_Next_Year_Race'][i],ultradata['PM_1_Month'][i]) for i in range(len(ultradata))]
+y = pd.Series(y, name = 'Y')
+ultradata = pd.concat([ultradata, y], axis = 1)
+
 # Writing the final data frame to file (again. i know, i know...)
 
 ultradata.to_csv(filepath + 'ultradata.csv', index = False)
