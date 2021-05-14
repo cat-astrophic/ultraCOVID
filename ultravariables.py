@@ -42,12 +42,15 @@ ultradata = pd.concat([ultradata, courses], axis = 1)
 cases = pd.read_csv(filepath + 'time_series_covid19_confirmed_US.csv') # Contains lattitude and longitude
 ccmap = pd.read_csv(filepath + 'ccmap.csv', sep = '|') # The city to county map from before
 ccmap = ccmap.replace(to_replace = 'Washington, D.C.', value = 'District of Columbia') # Update DC naming convention
+ccmap.City = ccmap.City.str.lower()
+ccmap.County = ccmap.County.str.lower()
+cases.Admin2 = cases.Admin2.str.lower()
 
 # The functions for mapping city to county for runners and races
 
 def city_to_county(inp):
     
-    city = inp.City
+    city = inp.City.lower()
     state = inp.State.upper().strip('"')
     sx = list(ccmap['State short']).index(state)
     st = ccmap['State full'][sx]
@@ -199,15 +202,22 @@ def city_to_county(inp):
             
     tmp = cases[cases.Province_State == st]
     tmp = tmp[tmp.Admin2 == county]
-    lat = cases.iloc[0]['Lat']
-    long = cases.iloc[0]['Long_']
-    coord = [lat,long]
+    
+    if len(tmp) > 0:
+        
+        lat = tmp.iloc[0]['Lat']
+        long = tmp.iloc[0]['Long_']
+        coord = [lat,long]
+        
+    else:
+        
+        coord = [None,None]
     
     return coord
 
 def city_to_county_2(inp):
     
-    city = inp.RACE_City
+    city = inp.RACE_City.lower()
     state = inp.RACE_State.upper().strip('"')
     sx = list(ccmap['State short']).index(state)
     st = ccmap['State full'][sx]
@@ -359,9 +369,16 @@ def city_to_county_2(inp):
             
     tmp = cases[cases.Province_State == st]
     tmp = tmp[tmp.Admin2 == county]
-    lat = cases.iloc[0]['Lat']
-    long = cases.iloc[0]['Long_']
-    coord = [lat,long]
+    
+    if len(tmp) > 0:
+        
+        lat = tmp.iloc[0]['Lat']
+        long = tmp.iloc[0]['Long_']
+        coord = [lat,long]
+        
+    else:
+        
+        coord = [None,None]
     
     return coord
 
@@ -372,10 +389,21 @@ race_coords = [city_to_county_2(ultradata.iloc[i]) for i in range(len(ultradata)
 
 # Use geopy.distances.geodesic to compute distances between runner and race for all observations
 
-distances = [geodesic(rnr_coords[i], race_coords[i]).mi for i in range(len(rnr_coords))]
+distances = []
+
+for i in range(len(rnr_coords)):
+    
+    if (rnr_coords[i] != [None,None]) and (race_coords[i] != [None,None]):
+        
+        distances.append(geodesic(rnr_coords[i], race_coords[i]).mi)
+        
+    else:
+        
+        distances.append(None)
 
 # Adding distances to the dataframe
 
+distances = pd.Series(distances, name = 'Travel_Distance')
 ultradata = pd.concat([ultradata, distances], axis = 1)
 
 # Writing the final data frame to file (again. i know, i know...)
