@@ -406,6 +406,39 @@ for i in range(len(rnr_coords)):
 distances = pd.Series(distances, name = 'Travel_Distance')
 ultradata = pd.concat([ultradata, distances], axis = 1)
 
+# Creating proxy variables for runner ability - mean of function of gender place in all races
+
+runners = ultradata.Runner_ID.to_list() # Runners
+gplace = ultradata.Gender_Place.to_list() # Gender places
+genders = ultradata.Gender.to_list() # Gender
+rids = ultradata.RACE_ID.to_list() # Races
+
+# Create per race score
+
+g_score = []
+
+for i in range(len(runners)):
+    
+    tmp = ultradata[ultradata['RACE_ID'] == rids[i]]
+    tmp = tmp[tmp['Gender'] == genders[i]]
+    gp = min(gplace[i], len(tmp)) - 1
+    g_score.append(1 - (gp/len(tmp)))
+
+# Aggregate scores into an average score per runner
+
+ability = []
+
+for i in range(len(runners)):
+    
+    ids = [j for j in range(len(runners)) if runners[j] == runners[i]]
+    vals = [g_score[j] for j in ids]
+    ability.append(sum(vals)/len(vals))
+
+# Adding this ability proxy score to the data frame
+
+ability = pd.Series(ability, name = 'Ability')
+ultradata = pd.concat([ultradata, ability], axis = 1)
+
 # Writing the final data frame to file (again. i know, i know...)
 
 ultradata.to_csv(filepath + 'ultradata.csv', index = False)
