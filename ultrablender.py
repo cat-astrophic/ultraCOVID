@@ -481,7 +481,7 @@ for i in range(len(racedata)):
     
     if pd.isnull(racedata['Next_Year_Event_Date'][i]) == False:
         
-        cased, deadd, casedst, deaddst = covid_rnr(racedata.iloc[i])
+        cased, deadd, casedst, deaddst = covid_race(racedata.iloc[i])
         race_c_c_ma7.append(cased[0])
         race_c_c_ma14.append(cased[1])
         race_c_c_ma30.append(cased[2])
@@ -547,7 +547,7 @@ for i in range(len(racedata)):
     print(i)
     if pd.isnull(racedata['NY_Event_Name_PM1'][i]) == False:
         
-        cased, deadd, casedst, deaddst = covid_race(racedata.iloc[i])
+        cased, deadd, casedst, deaddst = covid_rnr(racedata.iloc[i])
         pm1rnr_c_c_ma7.append(cased[0])
         pm1rnr_c_c_ma14.append(cased[1])
         pm1rnr_c_c_ma30.append(cased[2])
