@@ -404,7 +404,7 @@ rnr_s_d_ma14 = []
 rnr_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    print(i)
+    
     if racedata['Next_Year_Event_Date'][i] < datetime.datetime.strptime('2020-04-01', '%Y-%m-%d'):
         
         racedata['Next_Year_Event_Date'][i] = None
@@ -474,7 +474,7 @@ race_s_d_ma14 = []
 race_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    print(i)
+    
     if racedata['Next_Year_Event_Date'][i] < datetime.datetime.strptime('2020-04-01', '%Y-%m-%d'):
         
         racedata['Next_Year_Event_Date'][i] = None
@@ -544,7 +544,7 @@ pm1rnr_s_d_ma14 = []
 pm1rnr_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    print(i)
+    
     if pd.isnull(racedata['NY_Event_Name_PM1'][i]) == False:
         
         cased, deadd, casedst, deaddst = covid_rnr(racedata.iloc[i])
@@ -610,7 +610,7 @@ pm1race_s_d_ma14 = []
 pm1race_s_d_ma30 = []
 
 for i in range(len(racedata)):
-    print(i)
+    
     if pd.isnull(racedata['NY_Event_Name_PM1'][i]) == False:
         
         cased, deadd, casedst, deaddst = covid_race(racedata.iloc[i])
