@@ -22,7 +22,7 @@ def covidfunc(inp):
         
         coval = 1
         
-    elif (inp['RACE_Year'] == 2021) and (inp['RACE_Month'] not in ['Jan', 'Feb', 'Mar']):
+    elif (inp['RACE_Year'] == 2020) and (inp['RACE_Month'] not in ['Jan', 'Feb', 'Mar']):
         
         coval = 1
         
