@@ -11,3 +11,4 @@ currently this repo contains scripts which collect data on ultramarathons and th
 7. ultravariables.py
 8. ultraERS.py
 9. ultrarunne.R
+10. ultraCOVID.do -- this is the same as ultrarunne.R but generates margins for logit models much more quickly
