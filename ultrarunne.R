@@ -9,6 +9,7 @@ library(miceadds)
 library(lmtest)
 library(multiwayvcov)
 library(margins)
+library(mfx)
 
 # Specifying your username
 
@@ -30,7 +31,7 @@ ud <- ultradata[which(ultradata$Race_Held_Next_Year == 1),]
 
 m1 <- lm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = ud)
@@ -40,7 +41,7 @@ cl.robust.se.1 <- sqrt(diag(cl.cov1))
 
 m2 <- lm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
          + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-         + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+         + Total.Appearances + factor(RACE_Name)
          + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
          + Median_Household_Income + Unemployment_Rate + Some_College_Ass
          + College_Degree, data = ultradata)
@@ -55,7 +56,7 @@ ud1 <- ud[which(ud$Consecutive.Appearances == 1), ]
 
 m11 <- lm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
          + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-         + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+         + Total.Appearances + factor(RACE_Name)
          + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
          + Median_Household_Income + Unemployment_Rate + Some_College_Ass
          + College_Degree, data = ud1)
@@ -65,7 +66,7 @@ cl.robust.se.11 <- sqrt(diag(cl.cov11))
 
 m12 <- lm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
          + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-         + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+         + Total.Appearances + factor(RACE_Name)
          + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
          + Median_Household_Income + Unemployment_Rate + Some_College_Ass
          + College_Degree, data = UD1)
@@ -80,7 +81,7 @@ ud2 <- ud[which(ud$Consecutive.Appearances != 1), ]
 
 m21 <- lm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = ud2)
@@ -90,7 +91,7 @@ cl.robust.se.21 <- sqrt(diag(cl.cov21))
 
 m22 <- lm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = UD2)
@@ -108,7 +109,7 @@ stargazer(m1, m2, m11, m12, m21, m22,
 
 m01 <- lm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
          + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-         + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+         + Total.Appearances + factor(RACE_Name)
          + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
          + Median_Household_Income + Unemployment_Rate + Some_College_Ass
          + College_Degree, data = ud)
@@ -118,7 +119,7 @@ cl.robust.se.01 <- sqrt(diag(cl.cov01))
 
 m02 <- lm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
          + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-         + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+         + Total.Appearances + factor(RACE_Name)
          + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
          + Median_Household_Income + Unemployment_Rate + Some_College_Ass
          + College_Degree, data = ultradata)
@@ -130,7 +131,7 @@ cl.robust.se.02 <- sqrt(diag(cl.cov02))
 
 m011 <- lm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = ud1)
@@ -140,7 +141,7 @@ cl.robust.se.011 <- sqrt(diag(cl.cov011))
 
 m012 <- lm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = UD1)
@@ -152,7 +153,7 @@ cl.robust.se.012 <- sqrt(diag(cl.cov012))
 
 m021 <- lm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = ud2)
@@ -162,7 +163,7 @@ cl.robust.se.021 <- sqrt(diag(cl.cov021))
 
 m022 <- lm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
           + College_Degree, data = UD2)
@@ -183,20 +184,20 @@ write.csv(stargazer(m01, m02, m011, m012, m021, m022,
 
 l1 <- glm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-          + College_Degree, data = ud, family = binomial(link = logit))
+          + College_Degree, data = ud, family = binomial(link = 'logit'))
 
 ccl.cov1 <- cluster.vcov(l1, ud$RACE_Name) # cluster-robust SEs
 ccl.robust.se.1 <- sqrt(diag(ccl.cov1))
 
 l2 <- glm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
           + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-          + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+          + Total.Appearances + factor(RACE_Name)
           + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
           + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-          + College_Degree, data = ultradata, family = binomial(link = logit))
+          + College_Degree, data = ultradata, family = binomial(link = 'logit'))
 
 ccl.cov2 <- cluster.vcov(l2, ultradata$RACE_Name) # cluster-robust SEs
 ccl.robust.se.2 <- sqrt(diag(ccl.cov2))
@@ -208,20 +209,20 @@ ud1 <- ud[which(ud$Consecutive.Appearances == 1), ]
 
 l11 <- glm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
            + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-           + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+           + Total.Appearances + factor(RACE_Name)
            + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
            + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-           + College_Degree, data = ud1, family = binomial(link = logit))
+           + College_Degree, data = ud1, family = binomial(link = 'logit'))
 
 ccl.cov11 <- cluster.vcov(l11, ud1$RACE_Name) # cluster-robust SEs
 ccl.robust.se.11 <- sqrt(diag(ccl.cov11))
 
 l12 <- glm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
            + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-           + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+           + Total.Appearances + factor(RACE_Name)
            + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
            + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-           + College_Degree, data = UD1, family = binomial(link = logit))
+           + College_Degree, data = UD1, family = binomial(link = 'logit'))
 
 ccl.cov12 <- cluster.vcov(l12, UD1$RACE_Name) # cluster-robust SEs
 ccl.robust.se.12 <- sqrt(diag(ccl.cov12))
@@ -233,20 +234,20 @@ ud2 <- ud[which(ud$Consecutive.Appearances != 1), ]
 
 l21 <- glm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
            + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-           + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+           + Total.Appearances + factor(RACE_Name)
            + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
            + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-           + College_Degree, data = ud2, family = binomial(link = logit))
+           + College_Degree, data = ud2, family = binomial(link = 'logit'))
 
 ccl.cov21 <- cluster.vcov(l21, ud2$RACE_Name) # cluster-robust SEs
 ccl.robust.se.21 <- sqrt(diag(ccl.cov21))
 
 l22 <- glm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
            + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-           + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+           + Total.Appearances + factor(RACE_Name)
            + factor(Gender) + Age + factor(NY_RACE_Month) + RACE_Finisher_Count
            + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-           + College_Degree, data = UD2, family = binomial(link = logit))
+           + College_Degree, data = UD2, family = binomial(link = 'logit'))
 
 ccl.cov22 <- cluster.vcov(l22, UD2$RACE_Name) # cluster-robust SEs
 ccl.robust.se.22 <- sqrt(diag(ccl.cov22))
@@ -259,20 +260,20 @@ stargazer(l1, l2, l11, l12, l21, l22,
 
 l01 <- glm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
            + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-           + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+           + Total.Appearances + factor(RACE_Name)
            + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
            + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-           + College_Degree, data = ud, family = binomial(link = logit))
+           + College_Degree, data = ud, family = binomial(link = 'logit'))
 
 ccl.cov01 <- cluster.vcov(l01, ud$RACE_Name) # cluster-robust SEs
 ccl.robust.se.01 <- sqrt(diag(ccl.cov01))
 
 l02 <- glm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
            + In_State + Travel_Distance + Ability + Total_Races# + Consecutive.Appearances
-           + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+           + Total.Appearances + factor(RACE_Name)
            + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
            + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-           + College_Degree, data = ultradata, family = binomial(link = logit))
+           + College_Degree, data = ultradata, family = binomial(link = 'logit'))
 
 ccl.cov02 <- cluster.vcov(l02, ultradata$RACE_Name) # cluster-robust SEs
 ccl.robust.se.02 <- sqrt(diag(ccl.cov02))
@@ -281,20 +282,20 @@ ccl.robust.se.02 <- sqrt(diag(ccl.cov02))
 
 l011 <- glm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
             + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-            + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+            + Total.Appearances + factor(RACE_Name)
             + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
             + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-            + College_Degree, data = ud1, family = binomial(link = logit))
+            + College_Degree, data = ud1, family = binomial(link = 'logit'))
 
 ccl.cov011 <- cluster.vcov(l011, ud1$RACE_Name) # cluster-robust SEs
 ccl.robust.se.011 <- sqrt(diag(ccl.cov011))
 
 l012 <- glm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
             + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-            + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+            + Total.Appearances + factor(RACE_Name)
             + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
             + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-            + College_Degree, data = UD1, family = binomial(link = logit))
+            + College_Degree, data = UD1, family = binomial(link = 'logit'))
 
 ccl.cov012 <- cluster.vcov(l012, UD1$RACE_Name) # cluster-robust SEs
 ccl.robust.se.012 <- sqrt(diag(ccl.cov012))
@@ -303,20 +304,20 @@ ccl.robust.se.012 <- sqrt(diag(ccl.cov012))
 
 l021 <- glm(Attended_Next_Year_Race ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
             + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-            + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+            + Total.Appearances + factor(RACE_Name)
             + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
             + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-            + College_Degree, data = ud2, family = binomial(link = logit))
+            + College_Degree, data = ud2, family = binomial(link = 'logit'))
 
 ccl.cov021 <- cluster.vcov(l021, ud2$RACE_Name) # cluster-robust SEs
 ccl.robust.se.021 <- sqrt(diag(ccl.cov021))
 
 l022 <- glm(Y ~ Runner_City_Cases_MA30 + Race_City_Cases_MA30
             + In_State + Travel_Distance + Ability + Total_Races # + Consecutive.Appearances
-            + Total.Appearances + factor(RACE_Name) + factor(RACE_Distance)
+            + Total.Appearances + factor(RACE_Name)
             + factor(Gender) + Age + Age2 + factor(NY_RACE_Month) + RACE_Finisher_Count
             + Median_Household_Income + Unemployment_Rate + Some_College_Ass
-            + College_Degree, data = UD2, family = binomial(link = logit))
+            + College_Degree, data = UD2, family = binomial(link = 'logit'))
 
 ccl.cov022 <- cluster.vcov(l022, UD2$RACE_Name) # cluster-robust SEs
 ccl.robust.se.022 <- sqrt(diag(ccl.cov022))
@@ -332,19 +333,12 @@ write.csv(stargazer(l01, l02, l011, l012, l021, l022,
 
 # Generating the average effects from the logit models
 
-mar01 <- margins(l01)
-mar02 <- margins(l02)
-mar011 <- margins(l011)
-mar012 <- margins(l012)
-mar021 <- margins(l021)
-mar022 <- margins(l022)
-
-t01 <- l01$coefficients / subrse01
-t02 <- l02$coefficients / subrse02
-t011 <- l011$coefficients / subrse011
-t012 <- l012$coefficients / subrse012
-t021 <- l021$coefficients / subrse021
-t022 <- l022$coefficients / subrse022
+mar01 <- margins(l01, data = find_data(l01, ud))
+mar02 <- margins(l02, data = find_data(l02, ultradata))
+mar011 <- margins(l011, data = find_data(l011, ud1))
+mar012 <- margins(l012, data = find_data(l012, UD1))
+mar021 <- margins(l021, data = find_data(l021, ud2))
+mar022 <- margins(l022, data = find_data(l022, UD2))
 
 # RUN REGRESSIONS PREDICTING IF THE EVENT WAS HELD OR NOT USING COVID DATA, RACE FINISHERS, & DISTANCE
 
@@ -395,7 +389,7 @@ stargazer(rm1, se = list(cl.robust.se.1r),  type = 'text', omit = c('RACE_Dist',
 rl1 <- glm(Race_Held_Next_Year ~ Race_City_Cases_MA30_PM1 + Race_State_Cases_MA30_PM1
           + RACE_Finisher_Count + In_State + Travel_Distance + Ability + Age
           + Male + factor(RACE_Dist) + factor(RACE_St) + Total.Appearances,
-          data = racedata, family = binomial(link = logit))
+          data = racedata, family = binomial(link = 'logit'))
 
 cl.cov1rl <- cluster.vcov(rl1, racedata$RACE_St) # cluster-robust SEs
 cl.robust.se.1rl <- sqrt(diag(cl.cov1rl))
@@ -403,41 +397,4 @@ cl.robust.se.1rl <- sqrt(diag(cl.cov1rl))
 stargazer(rl1, se = list(cl.robust.se.1rl),  type = 'text', omit = c('RACE_Dist', 'RACE_St'))
 
 stargazer(rm1, rl1, se = list(cl.robust.se.1r, cl.robust.se.1rl),  type = 'text', omit = c('RACE_Dist', 'RACE_St'))
-
-mar1 <- margins(rl1)
-t1 <- rl1$coefficients / mar1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
