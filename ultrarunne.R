@@ -400,3 +400,17 @@ stargazer(rm1, rl1, se = list(cl.robust.se.1r, cl.robust.se.1rl),  type = 'text'
 
 mars <- margins(rl1, data = find_data(rl1, racedata))
 
+# Generate a figure showing that more in state runners correlates with smaller races
+
+racedata$Race_Finisher_Count <- racedata$RACE_Finisher_Count
+racedata$In_State <- 100*racedata$In_State
+
+fc <- lm(Race_Finisher_Count ~ In_State, data = racedata)
+fc2 <- lm(log(Race_Finisher_Count) ~ In_State, data = racedata)
+
+with(racedata,plot(In_State, Race_Finisher_Count))
+abline(fc, col = 'red', lwd = 4)
+
+with(racedata,plot(In_State, log(Race_Finisher_Count)))
+abline(fc2, col = 'red', lwd = 4)
+
