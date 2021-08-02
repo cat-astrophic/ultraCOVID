@@ -373,7 +373,7 @@ racedata$RACE_Mon <- RACE_Mon
 racedata$RACE_Cit <- RACE_Cit
 racedata$RACE_St <- RACE_St
 
-# Start with a LPM
+# Start with an LPM
 
 rm1 <- lm(Race_Held_Next_Year ~ Race_City_Cases_MA30_PM1 + Race_State_Cases_MA30_PM1
           + RACE_Finisher_Count + In_State + Travel_Distance + Ability + Age
@@ -397,4 +397,6 @@ cl.robust.se.1rl <- sqrt(diag(cl.cov1rl))
 stargazer(rl1, se = list(cl.robust.se.1rl),  type = 'text', omit = c('RACE_Dist', 'RACE_St'))
 
 stargazer(rm1, rl1, se = list(cl.robust.se.1r, cl.robust.se.1rl),  type = 'text', omit = c('RACE_Dist', 'RACE_St'))
+
+mars <- margins(rl1, data = find_data(rl1, racedata))
 
