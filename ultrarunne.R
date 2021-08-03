@@ -23,6 +23,11 @@ ultradata <- read.csv(paste('C:/Users/', username, '/Documents/Data/ultraCOVID/u
 
 ultradata$Age2 <- ultradata$Age * ultradata$Age
 
+# Summary stats for runner level data
+
+write.csv(stargazer(ultradata, summary.stat = c('n', 'mean', 'sd', 'min', 'max')),
+          paste('C:/Users/', username, '/Documents/Data/ultraCOVID/summary_stats_runner.txt', sep = ''), row.names = FALSE)
+
 # Creating the baseline data set
 
 ud <- ultradata[which(ultradata$Race_Held_Next_Year == 1),]
@@ -413,4 +418,12 @@ abline(fc, col = 'red', lwd = 4)
 
 with(racedata,plot(In_State, log(Race_Finisher_Count)))
 abline(fc2, col = 'red', lwd = 4)
+
+# Summary stats for the race level data
+
+racedata <- as.data.frame(racedata)
+
+write.csv(stargazer(racedata, summary.stat = c('n', 'mean', 'sd', 'min', 'max')),
+          paste('C:/Users/', username, '/Documents/Data/ultraCOVID/summary_stats_race.txt', sep = ''), row.names = FALSE)
+
 
