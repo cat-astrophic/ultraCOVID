@@ -23,49 +23,49 @@ egen ny_race_month2 = group(ny_race_month)
 
 logit attended_next_year_race runner_city_cases_ma30 race_city_cases_ma30 in_state travel_distance ability total_races totalappearances i.race_name2 i.gender2 age age2 i.ny_race_month2 race_finisher_count median_household_income unemployment_rate some_college_ass college_degree, r
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.csv, replace excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.dta, replace excel dec(3)
 
 margins, dydx(*)
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.csv, replace excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.dta, replace excel dec(3)
 
 logit y runner_city_cases_ma30 race_city_cases_ma30 in_state travel_distance ability total_races totalappearances i.race_name2 i.gender2 age age2 i.ny_race_month2 race_finisher_count median_household_income unemployment_rate some_college_ass college_degree, r
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.dta, append excel dec(3)
 
 margins, dydx(*)
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.dta, append excel dec(3)
 
 logit attended_next_year_race runner_city_cases_ma30 race_city_cases_ma30 in_state travel_distance ability total_races totalappearances i.race_name2 i.gender2 age age2 i.ny_race_month2 race_finisher_count median_household_income unemployment_rate some_college_ass college_degree if consecutiveappearances == 1, r
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.dta, append excel dec(3)
 
 margins, dydx(*)
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.dta, append excel dec(3)
 
 logit y runner_city_cases_ma30 race_city_cases_ma30 in_state travel_distance ability total_races totalappearances i.race_name2 i.gender2 age age2 i.ny_race_month2 race_finisher_count median_household_income unemployment_rate some_college_ass college_degree if consecutiveappearances == 1, r
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.dta, append excel dec(3)
 
 margins, dydx(*)
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.dta, append excel dec(3)
 
 logit attended_next_year_race runner_city_cases_ma30 race_city_cases_ma30 in_state travel_distance ability total_races totalappearances i.race_name2 i.gender2 age age2 i.ny_race_month2 race_finisher_count median_household_income unemployment_rate some_college_ass college_degree if consecutiveappearances > 1, r
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.dta, append excel dec(3)
 
 margins, dydx(*)
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.dta, append excel dec(3)
 
 logit y runner_city_cases_ma30 race_city_cases_ma30 in_state travel_distance ability total_races totalappearances i.race_name2 i.gender2 age age2 i.ny_race_month2 race_finisher_count median_household_income unemployment_rate some_college_ass college_degree if consecutiveappearances > 1, r
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_results.dta, append excel dec(3)
 
 margins, dydx(*)
 
-outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.csv, append excel dec(3)
+outreg2 using C:\Users\User\Documents\Data\ultraCOVID\logit_margins.dta, append excel dec(3)
 
