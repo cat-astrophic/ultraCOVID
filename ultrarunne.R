@@ -10,6 +10,11 @@ library(lmtest)
 library(multiwayvcov)
 library(margins)
 library(mfx)
+library(ggplot2)
+library(maps)
+library(sf)
+library(tmap)
+library(socviz)
 
 # Specifying your username
 
@@ -413,10 +418,10 @@ racedata$In_State <- 100*racedata$In_State
 fc <- lm(Race_Finisher_Count ~ In_State, data = racedata)
 fc2 <- lm(log(Race_Finisher_Count) ~ In_State, data = racedata)
 
-with(racedata,plot(In_State, Race_Finisher_Count))
+with(racedata, plot(In_State, Race_Finisher_Count))
 abline(fc, col = 'red', lwd = 4)
 
-with(racedata,plot(In_State, log(Race_Finisher_Count)))
+with(racedata, plot(In_State, log(Race_Finisher_Count), xlab = 'Percent In State', ylab = 'ln(Race Finisher Count)'))
 abline(fc2, col = 'red', lwd = 4)
 
 # Summary stats for the race level data
@@ -426,4 +431,118 @@ racedata <- as.data.frame(racedata)
 write.csv(stargazer(racedata, summary.stat = c('n', 'mean', 'sd', 'min', 'max')),
           paste('C:/Users/', username, '/Documents/Data/ultraCOVID/summary_stats_race.txt', sep = ''), row.names = FALSE)
 
+# Create a figure for where races were / if they were held during covid
+
+plotdata <- ultradata %>%
+  group_by(Y) %>%
+  count(FIPS)
+
+plotdata <- as.data.frame(plotdata)
+
+plotdata0 <- plotdata[which(plotdata$Y == 0),]
+plotdata1 <- plotdata[which(plotdata$Y == 1),]
+
+id <- unique(ultradata$FIPS)
+vals <- c()
+
+for (f in id) {
+  
+  if (f %in% plotdata0$FIPS) {
+    
+    tmp <- plotdata0[which(plotdata0$FIPS == f),]
+    
+    if (dim(tmp)[1] > 0) {
+      
+      val0 <- tmp$n
+      
+    } else {
+      
+      val0 <- 0
+      
+    }
+    
+  } else {
+    
+    val0 <- 0
+    
+  }
+  
+  if (f %in% plotdata1$FIPS) {
+    
+    tmp <- plotdata1[which(plotdata1$FIPS == f),]
+    
+    if (dim(tmp)[1] > 0) {
+      
+      val1 <- tmp$n
+      
+    } else {
+      
+      val1 <- 0
+      
+    }
+    
+  } else {
+    
+    val1 <- 0
+    
+  }
+  
+  v <- val0 + val1
+  
+  if (v > 0) {
+    
+    val <- val1 / v
+    vals <- c(vals, val)
+    
+  } else {
+    
+    vals <- c(vals, NA)
+    
+  }
+  
+}
+
+plotdf <- cbind(id, vals)
+plotdf <- as.data.frame(plotdf)
+plotdf$vals <- 100*plotdf$vals
+
+finalvals <- c()
+cats <- c('0% - 12.5%', '12.5% - 25%', '25% - 37.5%', '37.5% - 50%',
+          '50% - 62.5%', '62.5% - 75%', '75% - 87.5%', '87.5% - 100%')
+
+for (v in plotdf$vals) {
+  
+  tmp <- ceiling(v / 12.5) + 1
+  newval <- cats[tmp]
+  finalvals <- c(finalvals, newval)
+  
+}
+
+plotdf$pcts <- finalvals
+
+county_map
+county_map$id <- as.numeric(county_map$id)
+
+plotdf <- left_join(county_map, plotdf, by = 'id')
+
+p <- ggplot(data = plotdf, mapping = aes(x = long, y = lat, fill = pcts, group = group))
+
+p1 <- p + geom_polygon(color = 'gray90', size = 0.05)
+
+p2 <- p1 + scale_fill_brewer(palette = 'Blues')
+
+p3 <- p2 + ggtitle('Percentage of Runners Competing During COVID-19')
+
+p4 <- p3 + theme(plot.title = element_text(hjust = 0.5))
+
+p5 <- p4 + theme(axis.title.x = element_blank(),
+                 axis.text.x = element_blank(),
+                 axis.ticks.x = element_blank(),
+                 axis.title.y = element_blank(),
+                 axis.text.y = element_blank(),
+                 axis.ticks.y = element_blank())
+
+p5 + labs(fill = 'Percentage') +
+  guides(fill = guide_legend(nrow = 2)) + 
+  theme(legend.position = 'bottom')
 
