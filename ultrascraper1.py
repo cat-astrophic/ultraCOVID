@@ -50,9 +50,9 @@ for x in range(1,page_count+1):
         
         # The link to the race specific data page
         
-        link_id1 = d.index('goToRace')
-        link_id2 = d.index(')">')
-        link = d[link_id1+9:link_id2]
+        link_id1 = d.index('onclick="window.location.href=')
+        link_id2 = d.index('/results')
+        link = d[link_id1+31:link_id2+8]
         goToRace.append(link)
         
         # Month of event
@@ -119,6 +119,10 @@ for x in range(1,page_count+1):
         state = d[:state_id2]
         states.append(state)
         
+# Creating a race id variable from the url
+
+ids = [g[len(g)-13:len(g)-8] for g in goToRace]
+
 # Cleaning this data before saving as a df
 
 names = [n.replace('&amp;','&') for n in names]
@@ -128,7 +132,7 @@ splits = [int('split' in e) for e in events] # A list of indices for splits (not
 
 ultra_df = pd.DataFrame({'Name': names, 'Distance': events, 'City': cities,
                          'State': states, 'Finishers': finishers, 'Month': months,
-                         'Date': dates, 'Year': years, 'ID': goToRace, 'Split': splits})
+                         'Date': dates, 'Year': years, 'ID': ids, 'URL':goToRace, 'Split': splits})
 
 us = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA',
       'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS',
