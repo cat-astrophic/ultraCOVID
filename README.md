@@ -1,6 +1,6 @@
 # ultraCOVID
 
-currently this repo contains scripts which collect data on ultramarathons and their participants - eventually I aim to use this to study some questions related to the decision to compete (and travel) during the pandemic
+This repo contains scripts which collect data on ultramarathons and their participants for a paper entitled "Gender, Risk Aversion, and Travel: How COVID-19 Affected Participation in Ultramarathons" which is currently under review at the *Journal of Outdoor Recreation and Tourism*.
 
 1. ultrascraper1.py -- gets event specific urls
 2. ultrascraper2.py -- scrapes event urls for results data
