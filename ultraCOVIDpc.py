@@ -209,8 +209,6 @@ def ff(j):
 
 f = [ff(i) for i in range(len(death))]
 
-death.f = f
-
 pops = [death.Population[f.index(r)] for r in rfips]
 
 # Add pops to data
@@ -253,7 +251,7 @@ rnrcd7 = pd.Series(rnrcd7, name = 'Runner_City_Deaths_MA7_PC')
 rnrcd14 = pd.Series(rnrcd14, name = 'Runner_City_Deaths_MA14_PC')
 rnrcd30 = pd.Series(rnrcd30, name = 'Runner_City_Deaths_MA30_PC')
 
-ud = pd.concat([racecc7, racecc14, racecc30, racecd7, racecd14, racecd30, rnrcc7, rnrcc14, rnrcc30, rnrcd7, rnrcd14, rnrcd30], axis = 1)
+ud = pd.concat([ud, racecc7, racecc14, racecc30, racecd7, racecd14, racecd30, rnrcc7, rnrcc14, rnrcc30, rnrcd7, rnrcd14, rnrcd30], axis = 1)
 
 # Save the data
 
