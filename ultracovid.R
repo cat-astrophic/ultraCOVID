@@ -6,6 +6,7 @@ library(lmtest)
 library(margins)
 library(sandwich)
 library(stargazer)
+library(modelsummary)
 
 # Project directory
 
@@ -15,10 +16,19 @@ direc <- 'D:/ultraCOVID/'
 
 ud <- read.csv(paste0(direc, 'ultradata.csv'))
 
+# Creating a summary statistics table
+
+sdf <- ud[which(ud$Age >= 18), c(29, 95, 5, 16, 26, 92, 93, 94, 31, 32, 97, 98, 100, 101, 38, 39, 40, 41, 42, 43,
+             110, 111, 112, 113, 114, 115, 50, 51, 52, 53, 54, 55, 104, 105, 106, 107, 108, 109)]
+
+stargazer(sdf)
+
 # Adjust the COVID data by a factor of 1000 so that the point estimate is legible
 
-ud$Runner_City_Cases_MA30 <- ud$Runner_City_Cases_MA30 / 1000
-ud$Race_City_Cases_MA30 <- ud$Race_City_Cases_MA30 / 1000
+ud$Runner_City_Cases_MA30 <- ud$Runner_City_Cases_MA30 / 100000
+ud$Race_City_Cases_MA30 <- ud$Race_City_Cases_MA30 / 100000
+ud$Runner_City_Cases_MA30_PC <- ud$Runner_City_Cases_MA30_PC / 100000
+ud$Race_City_Cases_MA30_PC <- ud$Race_City_Cases_MA30_PC / 100000
 
 # Running the regressions
 
