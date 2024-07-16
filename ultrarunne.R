@@ -1061,15 +1061,19 @@ ggplot(ggdf, aes(x = ID, y = Value)) +
 
 # Adding an additional time series for previous month COVID cases
 
+cols <- c('Fixed Effects' = 'black', 'COVID Cases' = 'black')
+
 ggplot(ggdf, aes(x = ID, y = Value)) + 
-  geom_errorbar(width = .25, aes(ymin = Value - 1.96*serr, ymax = Value + 1.96*serr)) + 
-  geom_point(shape = 21, size = 3, fill = 'black') +
+  geom_errorbar(width = .25, aes(ymin = Value - 1.96*serr, ymax = Value + 1.96*serr, color = 'Fixed Effects')) + 
+  geom_point(shape = 21, size = 3, fill = 'black', aes(color = 'Fixed Effects')) +
   geom_hline(yintercept = 0, size = 0.5) + 
-  geom_line(aes(x = ID, y = CasesPM/(2*max(CasesPM)))) + 
+  geom_line(aes(x = ID, y = CasesPM/(2*max(CasesPM)), color = 'COVID Cases')) + 
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5)) + 
   ggtitle('Month Fixed Effect Values and New COVID Cases') + 
   xlab('Month') + 
   scale_x_continuous(breaks = seq(1, 11, 1), labels = months) + 
-  scale_y_continuous(name = 'Value', sec.axis = sec_axis(~.*2*max(ggdf$CasesPM)/1000000, name = 'Million New COVID Cases'))
+  scale_y_continuous(name = 'Month Fixed Effect Value (Relative to April)', sec.axis = sec_axis(~.*2*max(ggdf$CasesPM)/1000000, name = 'Million New COVID Cases')) +
+  scale_colour_manual(name = 'Legend', values = cols, guide = guide_legend(fill = NULL, color = NULL))
 
+  
