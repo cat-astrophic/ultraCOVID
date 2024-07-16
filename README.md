@@ -1,6 +1,6 @@
 # ultraCOVID
 
-This repo contains scripts which collect data on ultramarathons and their participants for a paper entitled "Gender, Risk Aversion, and Travel: How COVID-19 Affected Participation in Ultramarathons" which is currently under review at the *Journal of Sports Economics*. All race and runner data are obtained through these scripts; data for all covariates used in this paper can be found in the compressed data file.
+This repo contains scripts which collect data on ultramarathons and their participants for a paper entitled "Gender, Risk Aversion, and Travel: How COVID-19 Affected Participation in Ultramarathons" which has been conditionally accepted at the *Journal of Sports Economics*. All race and runner data are obtained through these scripts; data for all covariates used in this paper can be found in the compressed data file.
 
 1. ultrascraper1.py -- gets event specific urls
 2. ultrascraper2.py -- scrapes event urls for results data
