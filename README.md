@@ -1,6 +1,6 @@
 # ultraCOVID
 
-This repo contains scripts which collect data on ultramarathons and their participants for a paper entitled "Gender, Risk Aversion, and Travel: How COVID-19 Affected Participation in Ultramarathons" which has been accepted for publication at the *Journal of Sports Economics*. All race and runner data are obtained through these scripts; data for all covariates used in this paper can be found in the compressed data file.
+This repo contains scripts which collect data on ultramarathons and their participants for a paper entitled "Gender, Risk Aversion, and Travel: How COVID-19 Affected Participation in Ultramarathons" which has been published in the [*Journal of Sports Economics*](https://journals.sagepub.com/doi/abs/10.1177/15270025241279231). All race and runner data are obtained through these scripts; data for all covariates used in this paper can be found in the compressed data file.
 
 1. ultrascraper1.py -- gets event specific urls
 2. ultrascraper2.py -- scrapes event urls for results data
@@ -12,3 +12,25 @@ This repo contains scripts which collect data on ultramarathons and their partic
 8. ultraERS.py -- adds county level socioeconomic covariates
 9. ultrarunne.R -- runs all models (runner and race models)
 10. ultraCOVID.do -- this runs the race models from ultrarunne.R since it generates margins more quickly
+
+## Citation
+
+### APA
+
+Cary, M., & Stephens, H. M. (2024). How COVID-19 Affected Participation in Ultramarathons: Gender, Risk Aversion, and Travel. *Journal of Sports Economics*, 15270025241279231.
+
+### MLA
+
+Cary, Michael, and Heather M. Stephens. "How COVID-19 Affected Participation in Ultramarathons: Gender, Risk Aversion, and Travel." *Journal of Sports Economics* (2024): 15270025241279231.
+
+### Bibtex
+
+@article{cary2024covid,\
+&nbsp;&nbsp;&nbsp;&nbsp;title={How COVID-19 Affected Participation in Ultramarathons: Gender, Risk Aversion, and Travel},\
+&nbsp;&nbsp;&nbsp;&nbsp;author={Cary, Michael and Stephens, Heather M},\
+&nbsp;&nbsp;&nbsp;&nbsp;journal={Journal of Sports Economics},\
+&nbsp;&nbsp;&nbsp;&nbsp;pages={15270025241279231},\
+&nbsp;&nbsp;&nbsp;&nbsp;year={2024},\
+&nbsp;&nbsp;&nbsp;&nbsp;publisher={SAGE Publications Sage CA: Los Angeles, CA}\
+}
+
